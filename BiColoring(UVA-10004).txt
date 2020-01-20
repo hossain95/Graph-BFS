@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define black 1
+#define white 2
+bool bfs(int st, vector<int>adlist[])
+{
+    int visited[100005] = {};
+    visited[st] = 1;
+    queue<int>vv;
+    int color[100005] = {};
+    color[st] = black;
+    vv.push(st);
+    while(!vv.empty())
+    {
+        int u = vv.front();
+        vv.pop();
+        for(int i = 0; i < adlist[u].size(); i++)
+        {
+            int v = adlist[u][i];
+            if(visited[v] == 0)
+            {
+                if(color[u] == black)
+                {
+                    color[v] = white;
+                }
+                else
+                {
+                    color[v] = black;
+                }
+                visited[v]=1;
+                vv.push(v);
+            }
+            else
+            {
+                if(color[u] == color[v])
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+int main()
+{
+    int n;
+    while(scanf("%d", &n) != EOF)
+    {
+        if(n == 0)
+        {
+            break;
+        }
+        int m;
+        cin >> m;
+        vector<int>adlist[n+10] = {};
+        for(int i = 1; i <= m; i++)
+        {
+            int a, b;
+            cin >> a >> b;
+            a++;
+            b++;
+            adlist[a].push_back(b);
+            adlist[b].push_back(a);
+        }
+        bool ok = bfs(1, adlist);
+        if(ok)
+        {
+            cout << "BICOLORABLE."<<endl;
+        }
+        else
+        {
+            cout << "NOT BICOLORABLE." << endl;
+        }
+    }
+    return 0;
+}

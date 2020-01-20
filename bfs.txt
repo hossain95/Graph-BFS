@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+const long long Max = 10e7;
+typedef long long ll;
+int mod = 1000000007;
+vector<int>adlist[100];
+int visited[100] = {};
+vector<int>vv;
+void bfs(int start, int node)
+{
+    queue<int>QQQ;
+    QQQ.push(start);
+    visited[start] = 1;
+    vv.push_back(start);
+    while(!QQQ.empty())
+    {
+        int tem = QQQ.front();
+        QQQ.pop();
+        for(int i = 0; i < adlist[tem].size(); i++)
+        {
+            if(visited[adlist[tem][i]] == 0)
+            {
+                int keep = adlist[tem][i];
+                QQQ.push(keep);
+                visited[keep] = 1;
+                vv.push_back(keep);
+            }
+        }
+    }
+}
+int main()
+{
+    int node, edges;
+    cin >> node >> edges;
+    for(int i = 1; i <= edges; i++)
+    {
+        int t1, t2;
+        cin >> t1 >> t2;
+        adlist[t1].push_back(t2);
+        adlist[t2].push_back(t1);
+    }
+    int start;
+    cin >> start;
+    bfs(start, node);
+    for(int i = 0; i < vv.size(); i++)
+    {
+        cout << vv[i] << " ";
+    }
+    cout <<endl;
+    return 0;
+}
